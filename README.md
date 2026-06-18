@@ -31,7 +31,9 @@ That gap between product quality and AI visibility is what this tool is built to
 ## Prerequisites
 
 - Node.js v18 or higher
-- A Grok API key from [console.x.ai](https://console.x.ai)
+- An API key from any OpenAI-compatible provider. Tested with:
+  - [Grok](https://console.x.ai) 
+  - [OpenAI](https://platform.openai.com)
 
 ## Setup
 
