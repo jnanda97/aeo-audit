@@ -6,7 +6,7 @@ A command-line tool that audits a brand's visibility in AI search engines (AEO) 
 
 Traditional SEO tools tell you how you rank on Google. But as more consumers turn to AI assistants to discover products, a brand can have perfect SEO and still be invisible in AI search. This tool measures that gap.
 
-The inspiration came from discovering [Petra Labs](https://www.petralabs.com), a company helping businesses improve their visibility in AI search, and realizing a startup I'd been following could benefit from this kind of audit. I ran a manual audit on them and found that despite offering a genuinely novel product, they had zero mentions across AI search responses for relevant consumer queries while established competitors dominated every result.
+The inspiration for this project came from discovering [Petra Labs](https://www.petralabs.com), a company helping businesses improve their visibility in AI search, and realizing a startup I'd been following could benefit from this kind of audit. I built this tool and ran a manual audit on them and found that despite offering a genuinely novel product, they had zero mentions across AI search responses for relevant consumer queries while established competitors dominated every result.
 
 That gap between product quality and AI visibility is what this tool is built to surface. I'm not affiliated with Petra Labs in any way, and I've kept the audited startup anonymous out of respect for their team.
 
@@ -112,3 +112,6 @@ aeo-audit/
 │ └── reporter.ts # generates AEO markdown report
 
 └── reports/ # generated reports (gitignored)
+
+## Built With
+This project was built with assistance from Claude (Anthropic).
