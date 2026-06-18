@@ -1,4 +1,4 @@
-# AEO Audit Tool
+# AI Search Visibility Auditor
 
 A command-line tool that audits a brand's visibility in AI search engines (AEO) and traditional SEO health. Built to answer the question: _when potential customers ask AI assistants about your product category, does your brand show up?_
 
