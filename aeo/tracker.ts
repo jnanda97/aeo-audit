@@ -1,7 +1,8 @@
 import OpenAI from "openai";
 import * as dotenv from "dotenv";
+// when a potential customer asks an AI assistant about your product category, does your brand show up?
 
-dotenv.config();
+dotenv.config(); //reads the .env file and loads every key-value pair into process.env.
 
 const client = new OpenAI({
   apiKey: process.env.GROK_API_KEY,
@@ -21,32 +22,13 @@ export interface AEOReport {
   domain: string;
   queries: QueryResult[];
   totalMentions: number;
-  mentionRate: number;
+  mentionRate: number; //number between 0 and 1, not a percentage
   topCompetitors: { name: string; count: number }[];
 }
 
-const KNOWN_COMPETITORS = [
-  "poshmark",
-  "depop",
-  "therealreal",
-  "the real real",
-  "vestiaire",
-  "rent the runway",
-  "nuuly",
-  "stitch fix",
-  "thredup",
-  "vinted",
-  "by rotation",
-  "pickle",
-  "stockx",
-  "grailed",
-  "tradesy",
-  "moda operandi",
-];
-
-function extractCompetitors(text: string): string[] {
+function extractCompetitors(text: string, competitors: string[]): string[] {
   const lower = text.toLowerCase();
-  return KNOWN_COMPETITORS.filter((competitor) =>
+  return competitors.filter((competitor) =>
     lower.includes(competitor)
   );
 }
@@ -61,7 +43,7 @@ function countMentions(text: string, brand: string): number {
   let count = 0;
   let index = 0;
 
-  while (true) {
+  while (true) { //loop till you catch all mentions
     index = lower.indexOf(brandLower, index);
     if (index === -1) break;
     count++;
@@ -97,7 +79,7 @@ export async function runAEOAudit(
   brand: string,
   domain: string,
   queries: string[],
-  competitors: string[] = KNOWN_COMPETITORS
+  competitors: string[]
 ): Promise<AEOReport> {
   console.log(`\n🔍 Starting AEO audit for ${brand}...\n`);
 
@@ -107,14 +89,14 @@ export async function runAEOAudit(
     const response = await queryLLM(query);
     const brandMentioned = checkBrandMention(response, brand);
     const mentionCount = countMentions(response, brand);
-    const competitors = extractCompetitors(response);
+    const mentionedCompetitors = extractCompetitors(response, competitors);
 
     results.push({
       query,
       response,
       brandMentioned,
       mentionCount,
-      competitors,
+      competitors: mentionedCompetitors,
     });
 
     // small delay to avoid rate limiting

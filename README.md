@@ -32,7 +32,7 @@ That gap between product quality and AI visibility is what this tool is built to
 
 - Node.js v18 or higher
 - An API key from any OpenAI-compatible provider e.g.:
-  - [Grok](https://console.x.ai) 
+  - [Grok](https://console.x.ai)
   - [OpenAI](https://platform.openai.com)
 
 ## Setup
@@ -56,8 +56,17 @@ npm install
 cp .env.example .env
 ```
 
-4. Add your API key to `.env`, using grok here as an example:
-   GROK_API_KEY=your_key_here
+4. Add your API key to `.env`. The tool uses Grok by default — add your key like this:
+
+```
+GROK_API_KEY=your_key_here
+```
+
+If you prefer OpenAI, update the `apiKey` and remove the `baseURL` override in `aeo/tracker.ts`, then set:
+
+```
+OPENAI_API_KEY=your_key_here
+```
 
 ## Usage
 
@@ -65,16 +74,14 @@ cp .env.example .env
 npm run audit -- --brand "YOUR BRAND" --url "https://yourbrand.com" --queries "query one,query two,query three" --competitors "competitor1,competitor2,competitor3"
 ```
 
-Here is a sample query using CFA:
-
 ### Options
 
-| Flag          | Alias | Required | Description                               |
-| ------------- | ----- | -------- | ----------------------------------------- |
-| --brand       | -b    | yes      | Brand name to audit                       |
-| --url         | -u    | yes      | Brand website URL                         |
-| --queries     | -q    | yes      | Comma separated list of search queries    |
-| --competitors | -c    | no       | Comma separated list of known competitors |
+| Flag          | Alias | Required | Description                                                        |
+| ------------- | ----- | -------- | ------------------------------------------------------------------ |
+| --brand       | -b    | yes      | Brand name to audit                                                |
+| --url         | -u    | yes      | Brand website URL                                                  |
+| --queries     | -q    | yes      | Comma separated list of queries a consumer might ask an AI        |
+| --competitors | -c    | yes      | Comma separated list of competitors to track in AI responses       |
 
 ### Example
 
@@ -95,23 +102,17 @@ Reports are saved to the `reports/` folder as markdown files:
 
 ## Project Structure
 
+```
 aeo-audit/
-
-├── index.ts # entry point, CLI argument parsing
-
+├── index.ts          # entry point, CLI argument parsing
 ├── seo/
-
-│ ├── crawler.ts # crawls site, audits each page
-
-│ └── reporter.ts # generates SEO markdown report
-
+│   ├── crawler.ts    # crawls site, audits each page
+│   └── reporter.ts   # generates SEO markdown report
 ├── aeo/
-
-│ ├── tracker.ts # queries Grok, tracks brand mentions
-
-│ └── reporter.ts # generates AEO markdown report
-
-└── reports/ # generated reports (gitignored)
+│   ├── tracker.ts    # queries Grok, tracks brand mentions
+│   └── reporter.ts   # generates AEO markdown report
+└── reports/          # generated reports (gitignored)
+```
 
 ## Built With
 This project was built with assistance from Claude (Anthropic).

@@ -31,7 +31,7 @@ const argv = yargs(hideBin(process.argv))
     alias: "c",
     type: "string",
     description: "Comma separated list of known competitors",
-    demandOption: false,
+    demandOption: true,
   })
   .parseSync();
 
@@ -46,7 +46,7 @@ async function main() {
   console.log(`\n🚀 Starting audit for ${brand} (${url})\n`);
   console.log("=".repeat(60));
   console.log(`   Queries: ${queries.length}`);
-  console.log(`   Competitors tracked: ${competitors.length || "using defaults"}`);
+  console.log(`   Competitors tracked: ${competitors.length}`);
 
   // run SEO crawl
   console.log("\n📡 Running SEO Audit...");

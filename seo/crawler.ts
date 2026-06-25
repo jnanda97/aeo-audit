@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { URL } from "url";
+//is this website technically healthy from an SEO perspective?
 
 export interface PageAudit {
   url: string;
@@ -18,7 +19,7 @@ export interface SEOReport {
   has404Page: boolean;
 }
 
-async function checkUrl(url: string): Promise<number> {
+async function checkUrl(url: string): Promise<number> { //fetch the url and return the http status code
   try {
     const response = await axios.get(url, {
       maxRedirects: 5,
@@ -30,13 +31,13 @@ async function checkUrl(url: string): Promise<number> {
   }
 }
 
-async function auditPage(url: string): Promise<PageAudit> {
+async function auditPage(url: string): Promise<PageAudit> { //  This is the core per-page analysis function.
   try {
     const response = await axios.get(url, {
       validateStatus: () => true,
     });
 
-    const $ = cheerio.load(response.data);
+    const $ = cheerio.load(response.data); //returns a function $
     const canonical = $('link[rel="canonical"]').attr("href") || null;
     const metaDescription =
       $('meta[name="description"]').attr("content") || null;
@@ -65,7 +66,7 @@ async function auditPage(url: string): Promise<PageAudit> {
   }
 }
 
-async function discoverLinks(
+async function discoverLinks( //Finds all internal links on a page — this is how the crawler knows where to go next.
   baseUrl: string,
   html: string
 ): Promise<string[]> {
@@ -91,7 +92,7 @@ async function discoverLinks(
   return Array.from(links);
 }
 
-export async function crawlSite(baseUrl: string): Promise<SEOReport> {
+export async function crawlSite(baseUrl: string): Promise<SEOReport> { 
   console.log(`\n🔍 Starting SEO crawl of ${baseUrl}...\n`);
 
   const visited = new Set<string>();
